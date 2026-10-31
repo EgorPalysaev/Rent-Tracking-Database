@@ -4,8 +4,8 @@ Be aware that you need to pre-install docker. (You will have locally database st
 ```
 git clone https://github.com/EgorPalysaev/RenTrack.git
 cd RenTrack/src/
-docker image build -t egorpalysaev/rent-tracking .
-docker run -ti -v rent-tracking-database.db:/rentrack/database egorpalysaev/rent-tracking
+docker image build -t egorpalysaev/rent-tracking-database .
+docker run -ti -v rent-tracking-database.db:/app/database egorpalysaev/rent-tracking-database
 ```
 Or you can download container from docker-hub ```docker pull egorpalysaev/rent-tracking-database```
 
