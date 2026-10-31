@@ -3,9 +3,9 @@ FROM mcp/sqlite:latest
 FROM athenaos/base:latest
 FROM gcc
 
-WORKDIR /app
+WORKDIR /application
 
-COPY . /app
+COPY . /application
 
 RUN make app
 
