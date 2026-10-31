@@ -52,7 +52,7 @@ Database
 **`database`**  Database initialization 
 
 ## Installation
-Be aware that you need to pre-install docker. You will have locally database stored in 
+Be aware that you need to pre-install docker. (You will have locally database stored in /var/lib/docker/volumes/rent-tracking-database.db)
 ```
 git clone https://github.com/EgorPalysaev/RenTrack.git
 cd RenTrack/
