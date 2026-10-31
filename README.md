@@ -49,25 +49,16 @@ Database
 
 **`services`** - Associating user and repository 
 
-**`database`**  Initializate database 
+**`database`**  Database initialization 
 
 ## Installation
 Be aware that you need to pre-install docker
 ```
 git clone https://github.com/EgorPalysaev/RenTrack.git
 cd RenTrack/
+docker image build -t egorpalysaev/rent-tracking .
+docker run -ti -v rent-tracking-database:/rentrack/database egorpalysaev/rent-tracking
 ```
-Based on your OS complete:
-
-```make arch```
-
-```make fedora```
-
-```make ubuntu```
-
-```make mac```
-
-```make win```
 
 Or you can download container from docker-hub
 
@@ -76,3 +67,12 @@ Or you can download container from docker-hub
 If you have pre-installed GCC/Clang compiler and SQLite, you can simply run:
 
 ```make```
+
+You can change compiler by run:
+
+```make CC=clang```
+
+
+`ddddddddddddddddddddd`
+`----------------------`
+`sssssssssssssssssssss`
