@@ -7,6 +7,6 @@ WORKDIR /rentrack
 
 COPY . /rentrack
 
-RUN make
+RUN make app
 
 CMD [ "./app" ]

@@ -21,7 +21,7 @@ SOURCES = main.c menu.c registration.c \
 .PHONY:
 .SILENT:
 
-app:
+app: $(HEADERS)
 	$(CC) $(CFLAGS) $(SOURCES) -o $@ $(LDLIBS)
 clean:
 	rm -f app
