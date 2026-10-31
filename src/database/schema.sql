@@ -29,8 +29,10 @@ CREATE TABLE user_name(
 	FOREIGN KEY(RoleID) REFERENCES role_name(RoleID)
 );
 
+INSERT INTO `user_name` (RoleID, login, password, Name, Surname) VALUES (2, 'Admin', 'Admin', 'd', 'd');
+
 CREATE INDEX idx_user_name_role
-    ON user_namel (RoleID);
+    ON user_name (RoleID);
 
 CREATE TABLE premise(
 	PremiseID INTEGER PRIMARY KEY AUTOINCREMENT,

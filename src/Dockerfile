@@ -1,11 +1,12 @@
 FROM cleanstart/sqlite3:latest
+FROM mcp/sqlite:latest
 FROM athenaos/base:latest
 FROM gcc
 
-COPY . /rentrack
-
 WORKDIR /rentrack
+
+COPY . /rentrack
 
 RUN make
 
-CMD [ "./app.exe" ]
+CMD [ "./app" ]

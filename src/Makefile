@@ -2,6 +2,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 LDLIBS = -lsqlite3 -lm
 
+HEADERS = $(wildcard *.h)
+
 SOURCES = main.c menu.c registration.c \
           services/utils.c \
           services/add_premise.c \
@@ -16,9 +18,10 @@ SOURCES = main.c menu.c registration.c \
 	  repositories/rent_repo.c \
 	  repositories/close_rent_repo.c
 
-app.exe: $(SOURCES)
+.PHONY:
+.SILENT:
+
+app:
 	$(CC) $(CFLAGS) $(SOURCES) -o $@ $(LDLIBS)
-
 clean:
-	rm -f app.exe
-
+	rm -f app
