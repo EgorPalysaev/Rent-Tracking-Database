@@ -2,7 +2,7 @@
 sqlite3 *setupDB(){
     char *errMsg = NULL;
     sqlite3 *db = NULL;
-    int result = sqlite3_open("database/Rentrack.db", &db);
+    int result = sqlite3_open("database/local.db", &db);
     if (result != SQLITE_OK){
 	fprintf(stderr, "Can not open database: %s\n", db ? sqlite3_errmsg(db) : sqlite3_errstr(result));
         if (db != NULL) sqlite3_close(db);

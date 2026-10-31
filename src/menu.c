@@ -14,7 +14,6 @@ void menu(sqlite3* db){
 
     printf("[A]uthorize, [R]egister, [Q]uit, [H]elp\n> ");
     switch (chose()){
-	default: break;
 	case 'A': case 'a': 
 	    if (auth(db, active_user.login, active_user.password, &active_user.user_id, &active_user.user_role) == ERROR){
 		printf("\nError corrupted while authorization!\n");
