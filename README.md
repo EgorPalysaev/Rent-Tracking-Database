@@ -71,10 +71,3 @@ If you have pre-installed GCC/Clang compiler and SQLite, you can simply run:
 You can change compiler by run:
 
 ```make CC=clang```
-
-
-`ddddddddddddddddddddd`
-
-`----------------------`
-
-`sssssssssssssssssssss`
