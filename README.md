@@ -2,8 +2,8 @@ Installation
 
 Be aware that you need to pre-install docker. (You will have locally database stored in /var/lib/docker/volumes/rent-tracking-database/)
 ```
-git clone https://github.com/EgorPalysaev/RenTrack.git
-cd RenTrack/src/
+git clone https://github.com/EgorPalysaev/Rent-Tracking-Database.git
+cd Rent-Tracking-Database/src/
 docker image build -t egorpalysaev/rent-tracking-database .
 docker buildx prune
 docker run -ti -v rent-tracking-database:/usr/locale/bin/database egorpalysaev/rent-tracking-database
