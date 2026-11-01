@@ -15,12 +15,13 @@ static enum ERR data_registration(sqlite3* db, int Role){
 }
 
 enum ERR registration(sqlite3* db){
-    printf("Choose a options: [T]enant, [L]andlord\n");
-    printf("> ");
+    printf("Choose a options: [T]enant, [L]andlord\n> ");
+    fflush(stdout);
     int Role = 0;
-    switch (chose()){
+    switch (choice()){
 	case 'T': case 't': Role = 1; break;
 	case 'L': case 'l': Role = 2; break;
+	default: printf("Invalid option\n"); fflush(stdout); return ERROR;
     }
     if (data_registration(db, Role) == ERROR) return ERROR;
     return OK;

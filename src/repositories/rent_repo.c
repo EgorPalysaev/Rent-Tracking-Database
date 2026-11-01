@@ -2,21 +2,33 @@
 
 static enum ERR rent_check(sqlite3 *db, unsigned int *premise_id){
     printf("Enter Premise ID to rent: ");
+    fflush(stdout);
     if (scanf("%d", &(*premise_id)) != 1){
+	if (feof(stdin)){
+	    printf("EOF reached");
+	    fflush(stdout);
+	    exit(1);
+    } else {
+    int temp;
+    while((temp = getchar()) != '\n' && temp != EOF)
+	;
+    }
 	fprintf(stderr, "Invalid Premise ID input\n");
+	fflush(stderr);
 	return ERROR;
     }
-    while (getchar() != '\n');
     const char *sql = "SELECT * FROM premise WHERE PremiseID = ? AND StatusID = 1;";
     sqlite3_stmt *stmt = NULL;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
     sqlite3_bind_int64(stmt, 1, *premise_id);
     if (sqlite3_step(stmt) != SQLITE_ROW){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -34,12 +46,14 @@ enum ERR rent_repo(sqlite3 *db, unsigned int user_id){
     const char *sql = "UPDATE premise SET StatusID = 3 WHERE PremiseID = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
     sqlite3_bind_int64(stmt, 1, premise_id);
     if (sqlite3_step(stmt) != SQLITE_DONE){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -54,7 +68,8 @@ static enum ERR insert_rent(sqlite3* db, int user_id, int premise_id){
     char *sql;
     sqlite3_stmt *stmt = NULL;
     printf("How long do you need to rent? 1(M)onth, (6)Month, 1(Y)ear\n> ");
-    switch(chose()){
+    fflush(stdout);
+    switch(choice()){
 	case 'M': case 'm': sql = "INSERT INTO user_rent (UserID, PremiseID, End_rent) VALUES (?, ?, date('now', '+1 month'));"; break;
 	case '6': sql = "INSERT INTO user_rent (UserID, PremiseID, End_rent) VALUES (?, ?, date('now', '+6 month'));"; break;
 	case 'Y': case 'y': sql = "INSERT INTO user_rent (UserID, PremiseID, End_rent) VALUES (?, ?, date('now', '+1 year'));"; break;
@@ -63,6 +78,7 @@ static enum ERR insert_rent(sqlite3* db, int user_id, int premise_id){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -71,6 +87,7 @@ static enum ERR insert_rent(sqlite3* db, int user_id, int premise_id){
 
     if (sqlite3_step(stmt) != SQLITE_DONE){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }

@@ -1,32 +1,61 @@
 #include "../rentrack.h"
 
-char chose(){
+char choice(){
     char input = getchar();
-    while(getchar() != '\n')
+    if (feof(stdin)){
+	printf("EOF reached");
+	fflush(stdout);
+	exit(1);
+    }
+    int temp;
+    while((temp = getchar()) != '\n' && temp != EOF)
 	;
     return input;
 }
 enum ERR encrypt(){
     char key[64];
     const char *secret_key = SECRET_KEY;
-    printf("Enter a Secret Key\n");
-    printf("> ");
-    if (fgets(key, 64 * sizeof(char), stdin) == NULL) return ERROR;
-    key[strcspn(key, "\n")] = '\0';
-    for(int i = 0; i < (int)strlen(key); i++){
-	if (*(key + i) != *(secret_key + i)) return ERROR;
+    printf("Enter a Secret Key\n> ");
+    fflush(stdout);
+    if (fgets(key, 64 * sizeof(char), stdin) == NULL){
+	if (feof(stdin)){
+	    printf("EOF reached\n");
+	    fflush(stdout);
+	    exit(1);
+	}
+	clearerr(stdin);
+	return ERROR;
+    }
+    if (strchr(key, '\n') != NULL){
+	*strchr(key, '\n') = '\0';
+	for(int i = 0; i < (int)strlen(key); i++){
+	    if (*(key + i) != *(secret_key + i)) return ERROR;
+	}
+    } else {
+    int temp;
+    while((temp = getchar()) != '\n' && temp != EOF)
+	;
     }
     return OK;
 }
 
 enum RES read_line(const char *prompt, char *buf, size_t size, int key){
     printf("%s", prompt);
+    fflush(stdout);
 
-    if (fgets(buf, size, stdin) == NULL) return INPUT_ERROR;
-
+    if (fgets(buf, size, stdin) == NULL){
+	if (feof(stdin)){
+	    printf("EOF reached\n");
+	    fflush(stdout);
+	    exit(1);
+	}
+	clearerr(stdin);
+	return INPUT_ERROR;
+    }
     char *letter = strchr(buf, '\n');
-    if (letter != NULL) *letter = '\0';
-    else{
+    if (letter != NULL){
+	*letter = '\0';
+    } else{
 	int ch = getchar();
 	if (ch != '\n' && ch != EOF){
 	    while ((ch = getchar()) != '\n' && ch != EOF)
@@ -65,7 +94,8 @@ enum ERR checkdata(char *string){
     string_to_decimal(month, &m);
     string_to_decimal(day, &d);
     if (0 < m && m <= 12 && 0 < d && d <= 31) return OK;
-    printf("Invalid data");
+    printf("Invalid data\n");
+    fflush(stdout);
     return ERROR;
 }
 

@@ -4,10 +4,12 @@ static enum ERR auth_repo(sqlite3 *db, const char *login, const char *password, 
     sqlite3_stmt *stmt = NULL;
     if (sqlite3_prepare_v2(db, "SELECT UserID, RoleID, password FROM user_name WHERE login = ? LIMIT 1;", -1, &stmt, NULL) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	return ERROR;
     }
     if (sqlite3_bind_text(stmt, 1, login, -1, SQLITE_TRANSIENT) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -19,7 +21,8 @@ static enum ERR auth_repo(sqlite3 *db, const char *login, const char *password, 
 	    return OK;
 	}
 	else{
-	    printf("Incorrect password");
+	    printf("Incorrect password\n");
+	    fflush(stdout);
 	    sqlite3_finalize(stmt);
 	    return ERROR;
 	}
@@ -27,10 +30,12 @@ static enum ERR auth_repo(sqlite3 *db, const char *login, const char *password, 
     else if (sqlite3_step(stmt) == SQLITE_DONE){
 	sqlite3_finalize(stmt);
 	printf("Login does not exist\n");
+	fflush(stdout);
 	return ERROR;
     }
     else {
 	fprintf(stderr, "ERROR: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }

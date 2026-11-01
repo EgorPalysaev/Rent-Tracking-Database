@@ -5,6 +5,7 @@ static enum ERR close_rent_check(sqlite3 *db, unsigned int rent_id, unsigned int
     sqlite3_stmt *stmt = NULL;
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -12,6 +13,7 @@ static enum ERR close_rent_check(sqlite3 *db, unsigned int rent_id, unsigned int
     sqlite3_bind_int64(stmt, 2, user_id);
     if (sqlite3_step(stmt) != SQLITE_ROW){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -26,18 +28,28 @@ enum ERR close_rent_repo(sqlite3 *db, unsigned int user_id, unsigned int role){
     unsigned int rent_id = 0, premise_id = 0, rc = 0;
 
     printf("Enter RentID to close: ");
+    fflush(stdout);
     if (scanf("%d", &rent_id) != 1){
+	if (feof(stdin)){
+	    printf("EOF reached");
+	    fflush(stdout);
+	    exit(1);
+	}
 	fprintf(stderr, "Invalid RentID input\n");
+	fflush(stderr);
 	return ERROR;
+    } else {
+    int temp;
+    while((temp = getchar()) != '\n' && temp != EOF)
+	;
     }
-    while(getchar() != '\n');
-
     if (role == 1){
 	if (close_rent_check(db, rent_id, user_id) != OK) return ERROR;
 
 	const char *sql = "DELETE FROM user_rent WHERE RentID = ? RETURNING PremiseID;";
 	if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	    fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	    fflush(stderr);
 	    sqlite3_finalize(stmt);
 	    return ERROR;
 	}
@@ -46,6 +58,7 @@ enum ERR close_rent_repo(sqlite3 *db, unsigned int user_id, unsigned int role){
 
 	else if (rc == SQLITE_DONE){
 	    fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	    fflush(stderr);
 	    sqlite3_finalize(stmt);
 	    return ERROR;
 	}
@@ -53,12 +66,14 @@ enum ERR close_rent_repo(sqlite3 *db, unsigned int user_id, unsigned int role){
     }
     if (close_insert_rent(db, premise_id) != OK){
 	printf("Error: could not update statusID");
+	fflush(stdout);
 	return ERROR;
     }
     else if (role == 2){
 	const char *sql = "DELETE FROM user_rent WHERE RentID = ? RETURNING PremiseID;";
 	if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	    fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	    fflush(stderr);
 	    sqlite3_finalize(stmt);
 	    return ERROR;
 	}
@@ -67,6 +82,7 @@ enum ERR close_rent_repo(sqlite3 *db, unsigned int user_id, unsigned int role){
 
 	else if (rc == SQLITE_DONE){
 	    fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	    fflush(stderr);
 	    sqlite3_finalize(stmt);
 	    return ERROR;
 	}
@@ -74,6 +90,7 @@ enum ERR close_rent_repo(sqlite3 *db, unsigned int user_id, unsigned int role){
     }
     if (close_insert_rent(db, premise_id) != OK){
 	printf("Error: could not update statusID");
+	fflush(stdout);
 	return ERROR;
     }
     return OK;
@@ -86,6 +103,7 @@ static enum ERR close_insert_rent(sqlite3* db, int premise_id){
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }
@@ -93,6 +111,7 @@ static enum ERR close_insert_rent(sqlite3* db, int premise_id){
 
     if (sqlite3_step(stmt) != SQLITE_DONE){
 	fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
 	sqlite3_finalize(stmt);
 	return ERROR;
     }

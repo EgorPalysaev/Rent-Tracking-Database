@@ -5,14 +5,25 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
     if (table == 'U') show_all_data(db, "user_name", 0, 0);
     if (table == 'R') show_all_data(db, "user_rent", 0, 0);
     printf("Enter ID where update: ");
+    fflush(stdout);
     if (scanf("%d", update_id) != 1){
+	if (feof(stdin)){
+	    printf("EOF reached");
+	    fflush(stdout);
+	    exit(1);
+	}
 	printf("Error enter id to update!");
+	fflush(stdout);
 	return ERROR;
+    } else {
+	int temp;
+	while((temp = getchar()) != '\n' && temp != EOF)
+	    ;
     }
-    while(getchar() != '\n');
     if (table == 'P'){
 	printf("Modify a A[D]dress, [A]rea, [C]omment, [S]tatusID\n> ");
-	switch(chose()){
+	fflush(stdout);
+	switch(choice()){
 	    case 'D': case 'd': strcpy(column, "Address"); while (read_line("Enter a new address: ", value, 128, 0) != INPUT_OK); return OK;
 	    case 'A': case 'a': strcpy(column, "Area"); while (read_line("Enter a new address: ", value, 128, 0) != INPUT_OK || checknum(value) != OK); return OK;
 	    case 'C': case 'c': strcpy(column, "Comment"); while (read_line("Enter a new comment: ", value, 512, 1) != INPUT_OK); return OK;
@@ -22,7 +33,8 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
     }
     else if (table == 'U'){
 	printf("Modify a [R]oleID, [L]ogin, [P]assword, [N]ame, [S]urname, P[A]tronymic\n> ");
-	switch(chose()){
+	fflush(stdout);
+	switch(choice()){
 	    case 'R': case 'r': strcpy(column, "RoleID"); while (read_line("Enter a new RoleID: ", value, 2, 0) != INPUT_OK || checknum(value) != OK); return OK;
 	    case 'L': case 'l': strcpy(column, "login"); while (read_line("Enter a new Login: ", value, 32, 0) != INPUT_OK); return OK;
 	    case 'P': case 'p': strcpy(column, "password"); while (read_line("Enter a new Password: ", value, 32, 0) != INPUT_OK); return OK;
@@ -34,7 +46,8 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
     }
     else if (table == 'R'){
 	printf("Modify a [E]nd rent\n> ");
-	switch(chose()){
+	fflush(stdout);
+	switch(choice()){
 	    case 'E': case 'e': strcpy(column, "End_rent"); while (read_line("Enter a new end of rent(YYYY-MM-DD): ", value, 15, 0) != INPUT_OK && checkdata(value) != OK); return OK;
 	    default: return ERROR;
 	}

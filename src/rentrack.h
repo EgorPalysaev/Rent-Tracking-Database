@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <math.h>
 #include <malloc.h>
+#include <stdlib.h>
 
 enum ERR { OK = 1, ERROR = -1};
 enum RES { INPUT_OK, INPUT_ERROR, INPUT_TOO_LONG, INPUT_TOO_SMALL};
@@ -40,7 +41,7 @@ enum ERR checknum(const char* str);
 enum ERR encrypt();
 enum RES read_line(const char *prompt, char *buf, size_t size, int key);
 enum ERR string_to_decimal(const char *str, int *result);
-char chose();
+char choice();
 char *decimal_to_string(int source);
 void fill_zero_for_links(char *string);
 enum ERR checkdata(char *string);

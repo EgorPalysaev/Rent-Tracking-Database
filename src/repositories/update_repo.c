@@ -41,6 +41,7 @@ enum ERR update_repo(sqlite3 *db, const char *table, const char *column, const c
 
     if (spec == NULL) {
         fprintf(stderr, "Invalid table\n");
+	fflush(stderr);
         return ERROR;
     }
 
@@ -54,6 +55,7 @@ enum ERR update_repo(sqlite3 *db, const char *table, const char *column, const c
 
     if (!column_allowed) {
         fprintf(stderr, "Invalid column for this table\n");
+	fflush(stderr);
         return ERROR;
     }
 
@@ -64,6 +66,7 @@ enum ERR update_repo(sqlite3 *db, const char *table, const char *column, const c
 
     if (length < 0 || (size_t)length >= sizeof sql) {
         fprintf(stderr, "SQL statement is too long\n");
+	fflush(stderr);
         return ERROR;
     }
 
@@ -85,6 +88,7 @@ enum ERR update_repo(sqlite3 *db, const char *table, const char *column, const c
 
     if (rc != SQLITE_DONE) {
         fprintf(stderr, "SQLite error: %s\n", sqlite3_errmsg(db));
+	fflush(stderr);
         sqlite3_finalize(stmt);
         return ERROR;
     }

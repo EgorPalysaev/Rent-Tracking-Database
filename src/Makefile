@@ -4,6 +4,9 @@ LDLIBS = -lsqlite3 -lm
 
 HEADERS = $(wildcard *.h)
 
+DB = database/local.db
+SCHEMA = database/schema.sql
+
 SOURCES = main.c menu.c registration.c \
           services/utils.c \
           services/add_premise.c \
@@ -18,10 +21,13 @@ SOURCES = main.c menu.c registration.c \
 	  repositories/rent_repo.c \
 	  repositories/close_rent_repo.c
 
-.PHONY:
-.SILENT:
 
-app: $(HEADERS)
+$(DB): $(SCHEMA)
+	sqlite3 $(DB) < $(SCHEMA)
+	
+app: $(HEADERS) | $(DB)
 	$(CC) $(CFLAGS) $(SOURCES) -o $@ $(LDLIBS)
-clean:
+clean-app:
 	rm -f app
+clean-$(DB):
+	rm -f $(DB)
