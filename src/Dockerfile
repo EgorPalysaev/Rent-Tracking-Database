@@ -1,12 +1,17 @@
-FROM cleanstart/sqlite3:latest
-FROM mcp/sqlite:latest
-FROM athenaos/base:latest
-FROM gcc
-
-WORKDIR /application
-
-COPY . /application
-
+#---build---
+FROM alpine:latest AS builder
+# Located in latest workdir `RUN mkdir -p /application/ && cd /application/`
+WORKDIR /application/
+RUN apk add --no-cache sqlite-dev musl-dev gcc make
+COPY . /application/
 RUN make app
 
-CMD [ "./app" ]
+#---runtime---
+FROM alpine:latest
+WORKDIR /usr/local/bin/
+RUN apk add --no-cache sqlite-libs sqlite  #runtime lib + CLI
+COPY --from=builder /application/app /usr/local/bin/app
+COPY --from=builder /application/database/local.db /usr/local/bin/database/local.db
+
+CMD [ "/usr/local/bin/app" ]
+
