@@ -10,7 +10,7 @@ docker run -ti --name rent-tracking-database -v rent-tracking-database:/usr/loca
 ```
 To run container: ```docker start -ai rent-tracking-database```
 
-To stom and remove container: ```docker stop rent-tracking-database && docker rm rent-tracking-database```
+To stop and remove container: ```docker stop rent-tracking-database && docker rm rent-tracking-database```
 
 If you want to save builder docker-image run: ```docker image build --target builder -t egorpalysaev/rent-tracking-database-builder .```
 
