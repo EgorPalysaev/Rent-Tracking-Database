@@ -8,14 +8,11 @@ static enum ERR rent_check(sqlite3 *db, unsigned int *premise_id){
 	    printf("EOF reached");
 	    fflush(stdout);
 	    exit(1);
+	}
     } else {
-    int temp;
-    while((temp = getchar()) != '\n' && temp != EOF)
-	;
-    }
-	fprintf(stderr, "Invalid Premise ID input\n");
-	fflush(stderr);
-	return ERROR;
+	int temp;
+	while((temp = getchar()) != '\n' && temp != EOF)
+	    ;
     }
     const char *sql = "SELECT * FROM premise WHERE PremiseID = ? AND StatusID = 1;";
     sqlite3_stmt *stmt = NULL;

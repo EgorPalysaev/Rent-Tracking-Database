@@ -8,11 +8,11 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
     fflush(stdout);
     if (scanf("%d", update_id) != 1){
 	if (feof(stdin)){
-	    printf("EOF reached");
+	    printf("EOF reached\n");
 	    fflush(stdout);
 	    exit(1);
 	}
-	printf("Error enter id to update!");
+	printf("Error enter id to update!\n");
 	fflush(stdout);
 	return ERROR;
     } else {

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -std=c23
 LDLIBS = -lsqlite3 -lm
 
 HEADERS = $(wildcard *.h)
@@ -21,13 +21,15 @@ SOURCES = main.c menu.c registration.c \
 	  repositories/rent_repo.c \
 	  repositories/close_rent_repo.c
 
+create-db: $(SCHEMA)
+	touch database/local.db
 
-$(DB): $(SCHEMA)
+refresh-db: $(DB)
 	sqlite3 $(DB) < $(SCHEMA)
 	
 app: $(HEADERS) | $(DB)
 	$(CC) $(CFLAGS) $(SOURCES) -o $@ $(LDLIBS)
 clean-app:
 	rm -f app
-clean-$(DB):
+clean-db:
 	rm -f $(DB)
