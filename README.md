@@ -1,6 +1,6 @@
 Installation
 
-Be aware that you need to pre-install docker. (You will have locally database stored in /var/lib/docker/volumes/rent-tracking-database/)
+Be aware that you need to pre-install docker. (You will have locale database stored in /var/lib/docker/volumes/rent-tracking-database/)
 ```
 git clone https://github.com/EgorPalysaev/Rent-Tracking-Database.git
 cd Rent-Tracking-Database/src/
@@ -14,10 +14,17 @@ To stop and remove container: ```docker stop rent-tracking-database && docker rm
 
 To remove volume: ```docker volume rm rent-tracking-database```
 
-If you want to save builder docker-image run: ```docker image build --target builder -t egorpalysaev/rent-tracking-database-builder .```
+If you want to save builder docker-image: ```docker image build --target builder -t egorpalysaev/rent-tracking-database-builder .```
 
 Or you can download container from docker-hub: ```docker pull egorpalysaev/rent-tracking-database:latest```
 
-If you have pre-installed GCC/Clang compiler and SQLite, you can simply run: ```make app```
+If you have pre-installed GCC/Clang compiler and SQLite, you can simply run:
+```
+make create-db
+make refresh-db
+make app
+```
 
 You can change compiler by run (default = gcc): ```make CC=clang```
+
+If you want to create data-tables: ```./tables.sh <table_name>```

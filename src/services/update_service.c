@@ -12,7 +12,7 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
 	    fflush(stdout);
 	    exit(1);
 	}
-	printf("Error enter id to update!\n");
+	printf("Error while entering id!\n");
 	fflush(stdout);
 	return ERROR;
     } else {
@@ -21,7 +21,7 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
 	    ;
     }
     if (table == 'P'){
-	printf("Modify a A[D]dress, [A]rea, [C]omment, [S]tatusID\n> ");
+	printf("Modify the A[D]dress, [A]rea, [C]omment, [S]tatusID\n> ");
 	fflush(stdout);
 	switch(choice()){
 	    case 'D': case 'd': strcpy(column, "Address"); while (read_line("Enter a new address: ", value, 128, 0) != INPUT_OK); return OK;
@@ -32,7 +32,7 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
 	}
     }
     else if (table == 'U'){
-	printf("Modify a [R]oleID, [L]ogin, [P]assword, [N]ame, [S]urname, P[A]tronymic\n> ");
+	printf("Modify the [R]oleID, [L]ogin, [P]assword, [N]ame, [S]urname, P[A]tronymic\n> ");
 	fflush(stdout);
 	switch(choice()){
 	    case 'R': case 'r': strcpy(column, "RoleID"); while (read_line("Enter a new RoleID: ", value, 2, 0) != INPUT_OK || checknum(value) != OK); return OK;
@@ -45,7 +45,7 @@ enum ERR update_service(sqlite3 *db, const char table, char column[], char *valu
 	}
     }
     else if (table == 'R'){
-	printf("Modify a [E]nd rent\n> ");
+	printf("Modify the [E]nd rent\n> ");
 	fflush(stdout);
 	switch(choice()){
 	    case 'E': case 'e': strcpy(column, "End_rent"); while (read_line("Enter a new end of rent(YYYY-MM-DD): ", value, 15, 0) != INPUT_OK && checkdata(value) != OK); return OK;

@@ -28,8 +28,8 @@ refresh-db: $(DB)
 	sqlite3 $(DB) < $(SCHEMA)
 	
 app: $(HEADERS) | $(DB)
-	$(CC) $(CFLAGS) $(SOURCES) -o $@ $(LDLIBS)
+	$(CC) $(CFLAGS) $(SOURCES) -o $@.exe $(LDLIBS)
 clean-app:
-	rm -f app
+	rm -f app.exe
 clean-db:
 	rm -f $(DB)
